@@ -1,6 +1,6 @@
 FROM python:2-onbuild
 
-WORKDIR /source
+ADD retweet.py /source/retweet.py
 
 CMD while true; do python retweet.py; sleep 300; done
 

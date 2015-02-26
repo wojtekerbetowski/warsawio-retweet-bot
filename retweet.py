@@ -7,21 +7,29 @@ import redis
 
 
 # Check environment vars
-CONSUMER_KEY        = os.environ["CONSUMER_KEY"]
-CONSUMER_SECRET     = os.environ["CONSUMER_SECRET"]
-ACCESS_TOKEN        = os.environ["ACCESS_TOKEN"]
-ACCESS_TOKEN_SECRET = os.environ["ACCESS_TOKEN_SECRET"]
-REDIS_HOST          = os.environ["REDIS_HOST"]
-REDIS_PORT          = os.environ["REDIS_PORT"]
-REDIS_PASSWORD      = os.environ["REDIS_PASSWORD"]
-LOGENTRIES_TOKEN    = os.environ["LOGENTRIES_TOKEN"]
+try:
+    CONSUMER_KEY        = os.environ["CONSUMER_KEY"]
+    CONSUMER_SECRET     = os.environ["CONSUMER_SECRET"]
+    ACCESS_TOKEN        = os.environ["ACCESS_TOKEN"]
+    ACCESS_TOKEN_SECRET = os.environ["ACCESS_TOKEN_SECRET"]
+    REDIS_HOST          = os.environ["REDIS_HOST"]
+    REDIS_PORT          = os.environ["REDIS_PORT"]
+    REDIS_PASSWORD      = os.environ["REDIS_PASSWORD"]
+    LOGENTRIES_TOKEN    = os.environ.get("LOGENTRIES_TOKEN")
+
+except KeyError as k:
+    print('ERROR: Missing environment variable: {}. Exiting!'.format(k.message))
+    exit()
 
 # Configure logger
 log = logging.getLogger('logentries')
 log.setLevel(logging.DEBUG)
-logentries_handler = logentries.LogentriesHandler(LOGENTRIES_TOKEN)
-log.addHandler(logentries_handler)
 
+if LOGENTRIES_TOKEN:
+    logentries_handler = logentries.LogentriesHandler(LOGENTRIES_TOKEN)
+    log.addHandler(logentries_handler)
+else:
+    logging.basicConfig()
 
 try:
     # Connect to Redis database
