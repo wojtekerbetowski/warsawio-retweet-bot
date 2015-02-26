@@ -17,7 +17,7 @@ hashtag = config.get("settings","search_query")
 tweetLanguage = config.get("settings","tweet_language")
 
 # blacklisted users and words
-userBlacklist = ["warsawIO"]
+userBlacklist = ["warsawIO", "bobthenoob2"]
 wordBlacklist = ["RT", u"♺"]
 
 # build savepoint path + file

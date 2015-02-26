@@ -13,5 +13,5 @@ RUN chmod -R 0600 /var/spool/cron/crontabs/
 RUN touch /var/log/syslog
 RUN touch /source/retweet.log
 
-CMD rsyslogd && cron && tail -f /var/log/syslog /var/log/cron.log /source/retweet.log
+CMD rsyslogd && cron && tail -f /source/retweet.log
 
